@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8"/>
+  <title>پنل مدیریت | RLAX</title>
+  <link rel="stylesheet" href="style.css"/>
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <header class="header">
+    <h1>پنل مدیریت</h1>
+    <a href="index.html" class="back">صفحه اصلی</a>
+  </header>
+
+  <main class="content">
+    <div id="managePanel" class="panel">
+      <h3>ورود مدیر</h3>
+      <div id="loginBox">
+        <input id="adminPassword" type="password" placeholder="رمز عبور"/>
+        <button id="loginBtn">ورود</button>
+        <button id="logoutBtn" style="display:none">خروج</button>
+        <div id="loginMsg" class="msg"></div>
+      </div>
+
+      <div id="editor" style="display:none">
+        <input id="cfgTitle" placeholder="عنوان"/>
+        <select id="cfgType">
+          <option value="vmess">vmess</option>
+          <option value="vless">vless</option>
+          <option value="trojan">trojan</option>
+          <option value="other">دیگر</option>
+        </select>
+        <textarea id="cfgText" placeholder="متن کانفیگ"></textarea>
+        <input id="cfgFile" type="file"/>
+        <button id="addCfgBtn">افزودن</button>
+        <button id="clearEditor">پاک کردن</button>
+      </div>
+    </div>
+  </main>
+</body>
+</html>
