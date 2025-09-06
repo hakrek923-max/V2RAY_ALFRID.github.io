@@ -1,0 +1,84 @@
+/* style.css - mobile-first modern white/blue UI (shared across pages) */
+
+/* Reset & base */
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  font-family: "IRANSans","Inter",system-ui,-apple-system,"Segoe UI",Roboto,Arial;
+  background:#f6f9fc;color:#0f1724;-webkit-font-smoothing:antialiased;
+  line-height:1.35;-webkit-tap-highlight-color:transparent;
+  -moz-osx-font-smoothing:grayscale;
+}
+
+/* App container */
+.app{max-width:720px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column;padding-bottom:96px}
+
+/* Header (shared) */
+.header{padding:12px 16px;background:transparent;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #e6eef8;gap:12px}
+.brand{display:flex;align-items:center;gap:12px}
+.logo-wrap{display:flex;align-items:center;gap:10px}
+.logo-shield{width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,#007BFF,#00A3FF);display:grid;place-items:center;color:#fff;flex-shrink:0;box-shadow:0 8px 28px rgba(3,102,214,0.12)}
+.brand-title{font-weight:800;color:#063454;font-size:18px}
+.brand-sub{font-size:12px;color:#62748a}
+
+/* FAB 3-dots */
+.fab{position:fixed;top:12px;right:12px;width:48px;height:48px;border-radius:999px;background:#fff;border:1px solid #e6eef8;display:grid;place-items:center;box-shadow:0 8px 22px rgba(11,84,150,0.08);z-index:1200;cursor:pointer}
+.fab:active{transform:scale(.98)}
+.fab-menu{position:fixed;top:68px;right:12px;width:220px;background:#fff;border-radius:12px;box-shadow:0 18px 50px rgba(11,84,150,0.08);border:1px solid #e6eef8;overflow:hidden;z-index:1200;transform-origin:top right}
+.fab-menu a{display:block;padding:12px 14px;color:#0f1724;text-decoration:none;border-bottom:1px solid #f0f6fb;font-weight:700}
+.fab-menu a:last-child{border-bottom:0}
+.fab-menu a:hover{background:#f2fbff}
+
+/* main content */
+.content{padding:16px;display:flex;flex-direction:column;gap:12px}
+
+/* search + filters */
+.controls{display:flex;gap:8px;align-items:center}
+.search{flex:1;display:flex;gap:8px;align-items:center;background:#fff;border:1px solid #e6eef8;padding:8px 10px;border-radius:10px}
+.search input{border:0;outline:none;width:100%;font-size:14px;color:#10203a}
+.filter-row{display:flex;gap:8px;overflow:auto;padding-top:8px}
+.filter-btn{background:#fff;border:1px solid #e6eef8;padding:8px 10px;border-radius:999px;color:#0070d8;font-weight:700;font-size:13px;white-space:nowrap}
+.filter-btn.active{background:linear-gradient(90deg,#007BFF,#00A3FF);color:#fff;box-shadow:0 8px 24px rgba(3,102,214,0.08)}
+
+/* list cards */
+.list{display:flex;flex-direction:column;gap:12px;margin-top:6px}
+.card{background:linear-gradient(180deg,#ffffff,#fbfeff);border-radius:12px;padding:12px;border:1px solid #e6eef8;box-shadow:0 8px 28px rgba(3,102,214,0.04);transition:transform .18s ease,box-shadow .18s}
+.card:hover{transform:translateY(-6px);box-shadow:0 20px 46px rgba(3,102,214,0.08)}
+.meta{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px}
+.title{font-weight:800;color:#063454;font-size:15px}
+.time{font-size:12px;color:#6b7280}
+.card pre{background:#fbfdff;border:1px solid #eef6ff;padding:10px;border-radius:8px;overflow:auto;font-size:13px;color:#082033}
+.thumb{width:100%;border-radius:8px;margin-top:8px}
+
+/* actions */
+.actions{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.action-btn{flex:0 0 auto;padding:8px 12px;border-radius:10px;border:1px solid #e6eef8;background:#fff;color:#0070d8;font-weight:700;font-size:13px;display:inline-flex;align-items:center;gap:8px;cursor:pointer}
+.action-btn:active{transform:scale(.98)}
+.action-btn.warn{color:#ef4444}
+
+/* badge */
+.badge{padding:6px 8px;font-size:12px;border-radius:999px;border:1px solid #eef6ff;background:#f0f8ff;color:#0070d8;display:inline-block}
+
+/* empty state */
+.empty{text-align:center;color:#8b94a6;padding:18px;border-radius:12px;border:1px dashed #e6eef8;background:#fff}
+
+/* footer */
+.footer{position:fixed;left:0;right:0;bottom:0;padding:12px 16px;background:linear-gradient(180deg,rgba(255,255,255,0.95),#fff);border-top:1px solid #e6eef8;text-align:center;font-size:13px;color:#6b7280;z-index:1000}
+
+/* panels (used in manage) */
+.panel{background:#fff;border-radius:12px;padding:12px;border:1px solid #e6eef8;box-shadow:0 8px 28px rgba(3,102,214,0.04)}
+
+/* input styles for manage */
+.input, textarea, select{width:100%;padding:10px 12px;border:1px solid #e6eef8;border-radius:10px;background:#fbfdff;font-size:14px;color:#082033}
+textarea{min-height:120px;resize:vertical}
+
+/* ad overlay (mobile sized) */
+.ad-overlay{position:fixed;left:12px;right:12px;top:80px;z-index:1500;display:flex;justify-content:center}
+.ad-card{width:100%;max-width:680px;background:#fff;border-radius:12px;border:1px solid #e6eef8;box-shadow:0 24px 60px rgba(3,102,214,0.12);overflow:hidden;position:relative}
+.ad-media{width:100%;height:auto;display:block}
+.ad-caption{padding:10px 12px;border-top:1px solid #f0f6fb;font-weight:700;color:#063454}
+.ad-timer{position:absolute;left:12px;top:12px;background:rgba(0,0,0,0.6);color:#fff;padding:6px 8px;border-radius:8px;font-weight:700}
+.ad-close{position:absolute;right:10px;top:6px;font-weight:900;background:rgba(255,255,255,0.9);border-radius:999px;padding:6px 10px;border:1px solid #eef6ff;cursor:pointer;display:none}
+
+/* small screens adjustments */
+@media(min-width:720px){.app{max-width:680px}}
