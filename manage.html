@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>پنل مدیریت — RLAX</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
   <div class="app">
     <header class="header">
-      <div class="brand">
-        <div class="logo-shield" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 2L3 7v5c0 5 4 9 9 9s9-4 9-9V7l-9-5z" fill="white"></path></svg></div>
+      <div class="brand logo-wrap">
+        <div class="logo-shield">
+          <img src="logo.png" alt="logo" style="width:28px;height:28px;object-fit:contain;border-radius:6px" onerror="this.style.display='none'"/>
+        </div>
         <div>
           <div class="brand-title">RLAX</div>
           <div class="brand-sub">پنل مدیریت</div>
@@ -20,7 +22,7 @@
     </header>
 
     <main class="content">
-      <div class="panel" style="padding:12px;">
+      <div class="panel">
         <h3>ورود مدیر</h3>
         <div id="loginBox">
           <input id="adminPassword" class="input" type="password" placeholder="رمز پنل مدیر" />
@@ -31,9 +33,9 @@
           <div id="loginMsg" class="small" style="color:#ef4444;margin-top:8px"></div>
         </div>
 
-        <div id="editor" style="display:none; margin-top:12px">
-          <h3>افزودن کانفیگ جدید</h3>
-          <input id="cfgTitle" class="input" placeholder="عنوان (مثلاً: Server Tehran 1)" />
+        <div id="editor" style="display:none;margin-top:12px">
+          <h3>افزودن / ویرایش کانفیگ</h3>
+          <input id="cfgTitle" class="input" placeholder="عنوان (مثلاً: Server Tehran 1)"/>
           <select id="cfgType" class="input" style="margin-top:8px">
             <option value="vmess">vmess</option>
             <option value="vless">vless</option>
@@ -46,8 +48,17 @@
             <button id="addCfgBtn" class="btn">ذخیره</button>
             <button id="clearEditor" class="btn">پاک کردن</button>
           </div>
-          <div class="small" style="margin-top:8px;color:#6b7280">فایل‌ها به صورت داخلی (Base64) در مرورگر ذخیره می‌شوند تا پس از رفرش نیز قابل دسترسی باشند.</div>
+          <div class="small" style="margin-top:8px;color:#6b7280">فایل‌ها به صورت Base64 در مرورگر ذخیره می‌شوند تا پس از رفرش نیز قابل دسترسی باشند.</div>
         </div>
+      </div>
+
+      <div class="panel" style="margin-top:12px">
+        <h3>لیست کانفیگ‌ها</h3>
+        <div id="cfgListWrapper"></div>
+      </div>
+
+      <div class="panel" style="margin-top:12px">
+        <div id="adsPanel"></div>
       </div>
     </main>
 
@@ -56,4 +67,4 @@
 
   <script src="script.js"></script>
 </body>
-            </html>
+              </html>
