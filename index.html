@@ -1,28 +1,28 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>RLAX — کانفیگ‌ها</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
   <div class="app">
     <header class="header">
-      <div class="brand">
-        <div class="logo-shield" aria-hidden="true">
-          <!-- shield svg -->
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 2L3 7v5c0 5 4 9 9 9s9-4 9-9V7l-9-5z" fill="white"></path></svg>
+      <div class="brand logo-wrap">
+        <!-- try loading your logo.png from repo root, fallback to shield -->
+        <div class="logo-shield" id="logoBox">
+          <img src="logo.png" alt="logo" style="width:28px;height:28px;object-fit:contain;border-radius:6px" onerror="this.style.display='none';document.getElementById('logoFallback').style.display='block'"/>
+          <svg id="logoFallback" width="20" height="20" viewBox="0 0 24 24" fill="none" style="display:none"><path d="M12 2L3 7v5c0 5 4 9 9 9s9-4 9-9V7l-9-5z" fill="white"/></svg>
         </div>
         <div>
           <div class="brand-title">RLAX</div>
           <div class="brand-sub">پنل اشتراک کانفیگ</div>
         </div>
       </div>
-      <div class="fab" title="منو" aria-hidden="false">⋮</div>
 
-      <!-- fab menu (hidden by default) -->
-      <div class="fab-menu hidden" style="display:none" aria-hidden="true">
+      <div class="fab" title="منو">⋮</div>
+      <div class="fab-menu hidden" aria-hidden="true">
         <a href="index.html">صفحه اصلی</a>
         <a href="manage.html">پنل مدیریت</a>
         <a href="about.html">درباره</a>
@@ -53,14 +53,5 @@
   </div>
 
   <script src="script.js"></script>
-  <script>
-    // show/hide fab menu (index only)
-    const fab = document.querySelector('.fab');
-    const menu = document.querySelector('.fab-menu');
-    if(fab && menu){
-      fab.addEventListener('click', (e)=>{ e.stopPropagation(); menu.style.display = (menu.style.display==='none' ? 'block' : 'none'); });
-      document.addEventListener('click', ()=>{ menu.style.display='none'; });
-    }
-  </script>
 </body>
-        </html>
+</html>
