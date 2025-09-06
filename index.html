@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Aegis Lab — akadmi alfrid</title>
+  <meta name="color-scheme" content="dark">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2300ffaa' d='M8 12h48v12L32 56 8 24z'/%3E%3C/svg%3E">
+  <style>
+    :root{
+      --bg:#050607; --panel:#0c0f12; --muted:#8b949e; --text:#e6f1ef; 
+      --line:#1b2127; --accent:#00ffaa; --radius:16px; --shadow:0 10px 30px rgba(0,255,170,.08),0 0 0 1px #11261e inset;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%; margin:0; font-family: IRANSans, Vazirmatn, system-ui; color:var(--text); background:var(--bg);}
+    .wrap{max-width:1150px; margin:0 auto; padding:0 18px;}
+    header{position:sticky; top:0; z-index:40; backdrop-filter: blur(8px); background:rgba(5,6,7,.65); border-bottom:1px solid var(--line); padding:12px 0;}
+    .title{line-height:1.1}
+    .title b{display:block;font-weight:800}
+    .subtitle{font-size:12px;color:var(--muted)}
+    main{padding:24px 0 80px}
+    .card{background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); padding:16px; margin-bottom:16px; transition:0.3s; box-shadow:var(--shadow);}
+    .card:hover{transform:translateY(-4px) scale(1.02); box-shadow:0 15px 40px rgba(0,255,170,.2),0 0 0 1px #11261e inset;}
+    .card h3{margin:0 0 8px; font-size:16px}
+    input, textarea{width:100%; background:#0a0e11; border:1px solid #20262c; color:#dfe9e5; border-radius:12px; padding:10px 12px; outline:none; margin-bottom:8px}
+    input[type=file]{padding:4px}
+    .btn{border:1px solid #1e252b; background:#0b0f12; color:#cfe9e1; padding:8px 12px; border-radius:12px; cursor:pointer; transition:0.2s;}
+    .btn:hover{background:#0f1519; transform:scale(1.05);}
+    .caption{font-size:12px; color:var(--muted); margin-top:4px}
+    footer{border-top:1px solid var(--line); color:var(--muted); font-size:12px; padding:14px 0; text-align:center;}
+    #loginPanel, #adminPanel{display:none;}
+    #searchBar{margin-bottom:16px;}
+    .hidden{display:none;}
+  </style>
+</head>
+<body>
+  <header class="wrap">
+    <div class="title">
+      <b>Aegis Lab</b>
+      <div class="subtitle">پلتفرم آموزش با ویدئو، عکس و فایل</div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <!-- Login Panel -->
+    <div id="loginPanel" class="card">
+      <h3>ورود به پنل مدیریت</h3>
+      <input type="password" id="adminPass" placeholder="رمز عبور">
+      <button class="btn" id="loginBtn">ورود</button>
+      <div id="loginMsg" class="caption"></div>
+    </div>
+
+    <!-- Admin Panel -->
+    <div id="adminPanel" class="card">
+      <h3>افزودن آموزش جدید</h3>
+      <input type="text" id="title" placeholder="عنوان آموزش" />
+      <textarea id="desc" rows="4" placeholder="توضیحات کوتاه / کپشن"></textarea>
+      <input type="file" id="fileInput" multiple />
+      <select id="category">
+        <option value="">انتخاب دسته‌بندی</option>
+        <option value="ویدئو">ویدئو</option>
+        <option value="عکس">عکس</option>
+        <option value="فایل">فایل</option>
+      </select>
+      <button class="btn" id="addContent">افزودن آموزش</button>
+    </div>
+
+    <!-- Search -->
+    <input type="text" id="searchBar" placeholder="جستجوی آموزش‌ها..." />
+
+    <!-- Content Display -->
+    <div id="contentArea"></div>
+  </main>
+
+  <footer class="wrap">© <span id="year"></span> Aegis Lab</footer>
+
+  <script>
+    const ADMIN_PASS = "Hh2ratu/(";
+    document.getElementById('year').textContent = new Date().getFullYear();
+    const loginPanel = document.getElementById('loginPanel');
+    const adminPanel = document.getElementById('adminPanel');
+    const loginBtn = document.getElementById('loginBtn');
+    const loginMsg = document.getElementById('loginMsg');
+
+    // Show login panel
+    loginPanel.style.display = 'block';
+
+    loginBtn.addEventListener('click', ()=>{
+      const pass = document.getElementById('adminPass').value;
+      if(pass===ADMIN_PASS){
+        loginPanel.style.display='none';
+        adminPanel.style.display='block';
+        alert('ورود موفق!');
+      } else {
+        loginMsg.textContent = 'رمز عبور اشتباه است!';
+      }
+    });
+
+    const addBtn = document.getElementById('addContent');
+    const contentArea = document.getElementById('contentArea');
+    const searchBar = document.getElementById('searchBar');
+
+    function loadContent(){
+      const data = JSON.parse(localStorage.getItem('content')||'[]');
+      contentArea.innerHTML='';
+      data.forEach((item,i)=>{
+        let html=`<div class="card"><h3>${item.title}</h3>`;
+        if(item.desc) html+=`<div class='caption'>${item.desc}</div>`;
+        if(item.category) html+=`<div class='caption'>دسته‌بندی: ${item.category}</div>`;
+        item.files.forEach(f=>{
+          if(f.type.startsWith('image/')) html+=`<img src='${f.url}' style='max-width:100%; border-radius:12px; margin-top:8px;' />`;
+          else if(f.type.startsWith('video/')) html+=`<video src='${f.url}' controls style='max-width:100%; border-radius:12px; margin-top:8px;'></video>`;
+          else html+=`<a href='${f.url}' download='${f.name}' class='btn' style='margin-top:4px'>دانلود ${f.name}</a>`;
+        });
+        if(adminPanel.style.display==='block') html+=`<button class='btn' onclick='deleteContent(${i})' style='margin-top:8px'>حذف</button>`;
+        html+='</div>';
+        contentArea.innerHTML+=html;
+      });
+    }
+
+    function deleteContent(index){
+      let data = JSON.parse(localStorage.getItem('content')||'[]');
+      data.splice(index,1);
+      localStorage.setItem('content',JSON.stringify(data));
+      loadContent();
+    }
+
+    addBtn.addEventListener('click', ()=>{
+      const title = document.getElementById('title').value.trim();
+      const desc = document.getElementById('desc').value.trim();
+      const files = document.getElementById('fileInput').files;
+      const category = document.getElementById('category').value;
+      if(!title) return alert('عنوان را وارد کنید');
+      let storedFiles=[];
+      for(let f of files){
+        storedFiles.push({name:f.name, type:f.type, url:URL.createObjectURL(f)});
+      }
+      let data = JSON.parse(localStorage.getItem('content')||'[]');
+      data.unshift({title, desc, category, files:storedFiles});
+      localStorage.setItem('content',JSON.stringify(data));
+      document.getElementById('title').value='';
+      document.getElementById('desc').value='';
+      document.getElementById('fileInput').value='';
+      loadContent();
+    });
+
+    searchBar.addEventListener('input', ()=>{
+      const query = searchBar.value.toLowerCase();
+      const cards = contentArea.children;
+      for(let card of cards){
+        const text = card.innerText.toLowerCase();
+        card.style.display = text.includes(query)?'block':'none';
+      }
+    });
+
+    loadContent();
+  </script>
+</body>
+</html>
