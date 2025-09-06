@@ -1,143 +1,159 @@
-// چک کردن ورود مدیر
-const adminPass = "Hh2ratu/("; // رمز ورود
+/* --------------------------
+   RLAX Project JavaScript
+   - Mobile-first
+   - LocalStorage data
+--------------------------- */
 
-document.addEventListener("DOMContentLoaded", () => {
-  const loginBtn = document.getElementById("loginBtn");
-  if (loginBtn) {
-    loginBtn.addEventListener("click", () => {
-      const pass = document.getElementById("adminPassword").value;
-      const msg = document.getElementById("loginMsg");
-      if (pass === adminPass) {
-        localStorage.setItem("admin", "true");
-        window.location.href = "ads.html";
-      } else {
-        msg.innerText = "❌ رمز اشتباه است!";
-      }
-    });
-  }
+const STORAGE_CFG = 'rlax_configs';
+const STORAGE_ADS = 'rlax_ads';
+const ADMIN_PASS = 'Hh2ratu/(';
 
-  // حفاظت از صفحات پنل
-  if (["ads.html", "add-config.html", "configs.html"].some(p => location.href.includes(p))) {
-    if (localStorage.getItem("admin") !== "true") {
-      alert("دسترسی غیرمجاز 🚫");
-      window.location.href = "login.html";
-    }
-  }
-
-  // افزودن تبلیغ
-  const addAdBtn = document.getElementById("addAdBtn");
-  if (addAdBtn) {
-    addAdBtn.addEventListener("click", () => {
-      const file = document.getElementById("adFile").files[0];
-      const caption = document.getElementById("adCaption").value;
-      const ads = JSON.parse(localStorage.getItem("ads")) || [];
-      ads.push({ caption, file: file ? file.name : null, date: new Date().toLocaleString("fa-IR") });
-      localStorage.setItem("ads", JSON.stringify(ads));
-      alert("✅ تبلیغ اضافه شد");
-      location.reload();
-    });
-  }
-
-  // نمایش تبلیغات
-  const adsList = document.getElementById("adsList");
-  if (adsList) {
-    const ads = JSON.parse(localStorage.getItem("ads")) || [];
-    ads.forEach(ad => {
-      const div = document.createElement("div");
-      div.className = "ad-box";
-      div.innerHTML = `
-        <strong>${ad.caption}</strong>
-        <p>${ad.date}</p>
-        ${ad.file ? `<p>📂 فایل: ${ad.file}</p>` : ""}
-        <button class="close-ad">×</button>
-      `;
-      adsList.appendChild(div);
-      div.querySelector(".close-ad").addEventListener("click", () => div.remove());
-    });
-  }
-
-  // افزودن کانفیگ
-  const addCfgBtn = document.getElementById("addCfgBtn");
-  if (addCfgBtn) {
-    addCfgBtn.addEventListener("click", () => {
-      const title = document.getElementById("cfgTitle").value;
-      const type = document.getElementById("cfgType").value;
-      const text = document.getElementById("cfgText").value;
-      const files = Array.from(document.getElementById("cfgFile").files).map(f => f.name);
-
-      if (!title || !text) {
-        alert("⚠️ لطفاً عنوان و متن کانفیگ را وارد کنید");
-        return;
-      }
-
-      const configs = JSON.parse(localStorage.getItem("configs")) || [];
-      configs.push({
-        title,
-        type,
-        text,
-        files,
-        date: new Date().toLocaleString("fa-IR")
-      });
-      localStorage.setItem("configs", JSON.stringify(configs));
-      alert("✅ کانفیگ ذخیره شد");
-    });
-  }
-
-  // لیست کانفیگ‌ها برای مدیریت
-  const cfgList = document.getElementById("cfgList");
-  if (cfgList) {
-    const configs = JSON.parse(localStorage.getItem("configs")) || [];
-    configs.forEach((cfg, index) => {
-      const card = document.createElement("div");
-      card.className = "card";
-      card.innerHTML = `
-        <div class="card-title">${cfg.title} (${cfg.type})</div>
-        <div class="card-meta">${cfg.date}</div>
-        <p>${cfg.text}</p>
-        ${cfg.files.length ? `<p>📂 فایل‌ها: ${cfg.files.join(", ")}</p>` : ""}
-        <button onclick="deleteCfg(${index})">🗑 حذف</button>
-        <button onclick="editCfg(${index})">✏️ ویرایش</button>
-      `;
-      cfgList.appendChild(card);
-    });
-  }
-});
-
-// حذف کانفیگ
-function deleteCfg(index) {
-  const configs = JSON.parse(localStorage.getItem("configs")) || [];
-  configs.splice(index, 1);
-  localStorage.setItem("configs", JSON.stringify(configs));
-  location.reload();
+/* -------- Utilities -------- */
+function loadLocal(key){ try { return JSON.parse(localStorage.getItem(key) || '[]'); } catch(e){ return [] } }
+function saveLocal(key, arr){ localStorage.setItem(key, JSON.stringify(arr)); }
+function uid(){ return 'id_' + Date.now() + '_' + Math.random().toString(36).slice(2,8); }
+function formatDate(iso){
+  try {
+    const d = new Date(iso);
+    return d.toLocaleDateString('fa-IR') + ' ' + d.toLocaleTimeString('fa-IR');
+  } catch(e){ return iso }
+}
+function toast(msg){
+  const el = document.createElement('div');
+  el.textContent = msg;
+  el.style.cssText = 'position:fixed;left:50%;top:20px;transform:translateX(-50%);background:#0ea5e9;color:#fff;padding:8px 12px;border-radius:8px;z-index:2200;animation:toastAnim .3s';
+  document.body.appendChild(el);
+  setTimeout(()=>el.remove(),2000);
+}
+async function fileToDataUrl(file){
+  return new Promise((res,rej)=>{ const r=new FileReader(); r.onload=()=>res(r.result); r.onerror=rej; r.readAsDataURL(file); });
 }
 
-// ویرایش کانفیگ
-function editCfg(index) {
-  const configs = JSON.parse(localStorage.getItem("configs")) || [];
-  const cfg = configs[index];
-  localStorage.setItem("editCfg", JSON.stringify({ cfg, index }));
-  window.location.href = "add-config.html";
+/* -------- Menu -------- */
+function setupMenu(){
+  const menuBtn = document.getElementById('menuToggle');
+  const sideMenu = document.getElementById('sideMenu');
+  if(!menuBtn || !sideMenu) return;
+  let open = false;
+  menuBtn.addEventListener('click', ()=>{
+    open = !open;
+    sideMenu.style.right = open ? '0' : '-260px';
+  });
 }
 
-// پر کردن فرم برای ویرایش
-if (location.href.includes("add-config.html") && localStorage.getItem("editCfg")) {
-  const { cfg, index } = JSON.parse(localStorage.getItem("editCfg"));
-  document.getElementById("cfgTitle").value = cfg.title;
-  document.getElementById("cfgType").value = cfg.type;
-  document.getElementById("cfgText").value = cfg.text;
-  document.getElementById("addCfgBtn").innerText = "ویرایش";
-  document.getElementById("addCfgBtn").onclick = () => {
-    const configs = JSON.parse(localStorage.getItem("configs")) || [];
-    configs[index] = {
-      title: document.getElementById("cfgTitle").value,
-      type: document.getElementById("cfgType").value,
-      text: document.getElementById("cfgText").value,
-      files: cfg.files,
-      date: cfg.date
+/* -------- Index Page -------- */
+function renderIndex(){
+  const listArea = document.getElementById('listArea');
+  if(!listArea) return;
+  const arr = loadLocal(STORAGE_CFG);
+  listArea.innerHTML = '';
+  if(arr.length === 0){ listArea.innerHTML = '<div class="empty">هیچ کانفیگی وجود ندارد.</div>'; return; }
+  arr.forEach(cfg=>{
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = `
+      <div class="title">${cfg.title}</div>
+      <div class="time">${formatDate(cfg.createdAt)}</div>
+      ${cfg.text ? `<pre>${cfg.text}</pre>` : ''}
+    `;
+    const actions = document.createElement('div');
+    actions.className = 'actions';
+    const copyBtn = document.createElement('button');
+    copyBtn.className='action-btn'; copyBtn.textContent='📋 کپی';
+    copyBtn.onclick = ()=>{ navigator.clipboard.writeText(cfg.text||''); toast('کپی شد'); };
+    const dlBtn = document.createElement('button');
+    dlBtn.className='action-btn'; dlBtn.textContent='⬇️ دانلود';
+    dlBtn.onclick = ()=>{
+      const blob = new Blob([cfg.text||''], {type:'text/plain;charset=utf-8'});
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = cfg.title+'.txt';
+      a.click(); URL.revokeObjectURL(a.href);
     };
-    localStorage.setItem("configs", JSON.stringify(configs));
-    localStorage.removeItem("editCfg");
-    alert("✅ کانفیگ ویرایش شد");
-    window.location.href = "configs.html";
-  };
-                              }
+    actions.append(copyBtn, dlBtn);
+    card.appendChild(actions);
+    listArea.appendChild(card);
+  });
+}
+
+/* -------- Login Page -------- */
+function setupLogin(){
+  const loginBtn = document.getElementById('loginBtn');
+  if(!loginBtn) return;
+  loginBtn.addEventListener('click', ()=>{
+    const pass = document.getElementById('adminPassword').value;
+    if(pass === ADMIN_PASS){
+      sessionStorage.setItem('rlax_admin','1');
+      location.href='ads.html';
+    } else toast('رمز اشتباه است');
+  });
+}
+
+/* -------- Ads Page -------- */
+function setupAds(){
+  if(!document.getElementById('adsList')) return;
+  const addBtn = document.getElementById('addAdBtn');
+  addBtn.addEventListener('click', async ()=>{
+    const file = document.getElementById('adFile').files[0];
+    const caption = document.getElementById('adCaption').value;
+    if(!file) return toast('فایل انتخاب نشده');
+    const dataUrl = await fileToDataUrl(file);
+    const ad = {id:uid(),caption,type:file.type.startsWith('video')?'video':'image',dataUrl,createdAt:new Date().toISOString()};
+    const ads = loadLocal(STORAGE_ADS); ads.unshift(ad); saveLocal(STORAGE_ADS,ads); toast('تبلیغ ذخیره شد'); renderAds();
+  });
+  renderAds();
+}
+function renderAds(){
+  const wrap = document.getElementById('adsList');
+  if(!wrap) return;
+  const ads = loadLocal(STORAGE_ADS);
+  wrap.innerHTML='';
+  if(ads.length===0){ wrap.innerHTML='<div class="empty">تبلیغی وجود ندارد.</div>'; return; }
+  ads.forEach(ad=>{
+    const c=document.createElement('div'); c.className='card';
+    c.innerHTML=`<div class="title">${ad.caption}</div><div class="time">${formatDate(ad.createdAt)}</div>`;
+    if(ad.type==='image') c.innerHTML+=`<img src="${ad.dataUrl}" class="thumb">`;
+    else c.innerHTML+=`<video src="${ad.dataUrl}" controls class="thumb"></video>`;
+    wrap.appendChild(c);
+  });
+}
+
+/* -------- Add Config Page -------- */
+function setupAddConfig(){
+  if(!document.getElementById('cfgTitle')) return;
+  document.getElementById('addCfgBtn').addEventListener('click', ()=>{
+    const title=document.getElementById('cfgTitle').value;
+    const text=document.getElementById('cfgText').value;
+    if(!title) return toast('عنوان لازم است');
+    const arr=loadLocal(STORAGE_CFG);
+    arr.unshift({id:uid(),title,text,createdAt:new Date().toISOString()});
+    saveLocal(STORAGE_CFG,arr);
+    toast('کانفیگ ذخیره شد');
+    document.getElementById('cfgTitle').value='';
+    document.getElementById('cfgText').value='';
+  });
+}
+
+/* -------- Configs List Page -------- */
+function setupConfigs(){
+  const wrap=document.getElementById('cfgList');
+  if(!wrap) return;
+  const arr=loadLocal(STORAGE_CFG);
+  wrap.innerHTML='';
+  if(arr.length===0){ wrap.innerHTML='<div class="empty">هیچ کانفیگی ثبت نشده.</div>'; return; }
+  arr.forEach(cfg=>{
+    const c=document.createElement('div'); c.className='card';
+    c.innerHTML=`<div class="title">${cfg.title}</div><div class="time">${formatDate(cfg.createdAt)}</div>`;
+    wrap.appendChild(c);
+  });
+}
+
+/* -------- Run on page load -------- */
+document.addEventListener('DOMContentLoaded', ()=>{
+  setupMenu();
+  renderIndex();
+  setupLogin();
+  setupAds();
+  setupAddConfig();
+  setupConfigs();
+});
