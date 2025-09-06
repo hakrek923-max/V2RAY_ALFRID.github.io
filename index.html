@@ -12,42 +12,52 @@
 --bg:#050607; --panel:#0c0f12; --muted:#8b949e; --text:#e6f1ef; 
 --line:#1b2127; --accent:#00ffaa; --radius:16px; 
 --shadow:0 10px 30px rgba(0,255,170,.08),0 0 0 1px #11261e inset;
---glow:0 0 10px rgba(0,255,170,0.7);
+--glow:0 0 15px rgba(0,255,170,0.8);
+--hover-glow:0 0 20px rgba(0,255,170,0.5);
 }
 *{box-sizing:border-box}
 html,body{height:100%; margin:0; font-family: IRANSans, Vazirmatn, system-ui; color:var(--text); background:var(--bg);}
-body{display:flex;}
+body{display:flex; transition: background 0.3s;}
 /* Sidebar */
 #sidebar{
-width:220px; background:var(--panel); padding:20px; border-right:1px solid var(--line); position:fixed; height:100%; overflow:auto;
+width:220px; background:var(--panel); padding:20px; border-right:1px solid var(--line); position:fixed; height:100%; overflow:auto; box-shadow: var(--glow);
+transition: 0.3s;
 }
-#sidebar h2{margin:0 0 20px; color:var(--accent); text-align:center; font-size:20px;}
-#sidebar .menu-item{display:flex; align-items:center; padding:10px; border-radius:12px; margin-bottom:8px; cursor:pointer; transition:0.2s; color:var(--text);}
-#sidebar .menu-item:hover{background:rgba(0,255,170,0.1); box-shadow:var(--glow);}
-#sidebar .menu-item i{margin-left:8px; color:var(--accent);}
+#sidebar.collapsed{width:60px; padding:20px 8px;}
+#sidebar h2{margin:0 0 20px; color:var(--accent); text-align:center; font-size:20px; text-shadow: 0 0 6px var(--accent); transition:0.3s;}
+#sidebar.collapsed h2{opacity:0; pointer-events:none;}
+#sidebar .menu-item{display:flex; align-items:center; padding:12px; border-radius:12px; margin-bottom:10px; cursor:pointer; transition:0.3s; color:var(--text);}
+#sidebar .menu-item:hover{background:rgba(0,255,170,0.1); box-shadow: var(--hover-glow); transform:scale(1.05);}
+#sidebar .menu-item i{margin-left:10px; color:var(--accent);}
+/* Toggle Button */
+#toggleBtn{cursor:pointer; color:var(--accent); margin-bottom:20px; display:flex; justify-content:center; align-items:center; font-size:20px;}
 /* Main Content */
-main{margin-right:240px; flex:1; padding:24px;}
-header{position:sticky; top:0; z-index:40; backdrop-filter: blur(8px); background:rgba(5,6,7,.65); border-bottom:1px solid var(--line); padding:12px 0; margin-bottom:16px;}
+main{margin-right:240px; flex:1; padding:24px; transition: margin-right 0.3s;}
+main.collapsed{margin-right:60px;}
+header{position:sticky; top:0; z-index:40; backdrop-filter: blur(8px); background:rgba(5,6,7,.65); border-bottom:1px solid var(--line); padding:12px 0; margin-bottom:16px; box-shadow: var(--glow);}
 header .title{line-height:1.1}
-header .title b{display:block;font-weight:800}
-header .subtitle{font-size:12px;color:var(--muted)}
-.card{background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); padding:16px; margin-bottom:16px; transition:0.3s; box-shadow:var(--shadow);}
-.card:hover{transform:translateY(-4px) scale(1.02); box-shadow:0 15px 40px rgba(0,255,170,.2),0 0 0 1px #11261e inset;}
-.card h3{margin:0 0 8px; font-size:16px; display:flex; align-items:center;}
+header .title b{display:block;font-weight:800; text-shadow: 0 0 6px var(--accent);}
+header .subtitle{font-size:12px;color:var(--muted);}
+.card{background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); padding:16px; margin-bottom:16px; transition:0.5s; box-shadow:var(--shadow); opacity:0; transform:translateY(20px);}
+.card.show{opacity:1; transform:translateY(0);}
+.card:hover{transform:translateY(-4px) scale(1.02); box-shadow:0 15px 40px rgba(0,255,170,.3),0 0 0 1px #11261e inset;}
+.card h3{margin:0 0 8px; font-size:16px; display:flex; align-items:center; text-shadow: 0 0 4px var(--accent);}
 .card h3 i{margin-left:8px; color:var(--accent);}
-input, textarea, select{width:100%; background:#0a0e11; border:1px solid #20262c; color:#dfe9e5; border-radius:12px; padding:10px 12px; outline:none; margin-bottom:8px}
+input, textarea, select{width:100%; background:#0a0e11; border:1px solid #20262c; color:#dfe9e5; border-radius:12px; padding:10px 12px; outline:none; margin-bottom:8px; transition:0.2s;}
+input:focus, textarea:focus, select:focus{border-color:var(--accent); box-shadow:var(--glow);}
 input[type=file]{padding:4px}
-.btn{border:1px solid #1e252b; background:#0b0f12; color:#cfe9e1; padding:8px 12px; border-radius:12px; cursor:pointer; transition:0.2s;}
-.btn:hover{background:#0f1519; transform:scale(1.05);}
+.btn{border:1px solid #1e252b; background:#0b0f12; color:#cfe9e1; padding:8px 12px; border-radius:12px; cursor:pointer; transition:0.3s; box-shadow: 0 0 4px rgba(0,255,170,0.4);}
+.btn:hover{background:#0f1519; transform:scale(1.05); box-shadow:0 0 10px rgba(0,255,170,0.6);}
 .caption{font-size:12px; color:var(--muted); margin-top:4px}
 footer{border-top:1px solid var(--line); color:var(--muted); font-size:12px; padding:14px 0; text-align:center;}
 #loginPanel, #adminPanel{display:none;}
-#searchBar{margin-bottom:16px;}
+#searchBar{margin-bottom:16px; padding-left:10px;}
 </style>
 </head>
 <body>
 
 <div id="sidebar">
+<div id="toggleBtn"><i data-feather="menu"></i></div>
 <h2><i data-feather="shield"></i> Aegis Lab</h2>
 <div class="menu-item" onclick="showSection('home')"><i data-feather="home"></i> صفحه اصلی</div>
 <div class="menu-item" onclick="showSection('login')"><i data-feather="lock"></i> پنل مدیریت</div>
@@ -62,7 +72,6 @@ footer{border-top:1px solid var(--line); color:var(--muted); font-size:12px; pad
   </div>
 </header>
 
-<!-- Login Panel -->
 <div id="loginPanel" class="card">
   <h3><i data-feather="unlock"></i> ورود به پنل مدیریت</h3>
   <input type="password" id="adminPass" placeholder="رمز عبور">
@@ -70,7 +79,6 @@ footer{border-top:1px solid var(--line); color:var(--muted); font-size:12px; pad
   <div id="loginMsg" class="caption"></div>
 </div>
 
-<!-- Admin Panel -->
 <div id="adminPanel" class="card">
   <h3><i data-feather="plus-square"></i> افزودن آموزش جدید</h3>
   <input type="text" id="title" placeholder="عنوان آموزش" />
@@ -85,14 +93,11 @@ footer{border-top:1px solid var(--line); color:var(--muted); font-size:12px; pad
   <button class="btn" id="addContent">افزودن آموزش</button>
 </div>
 
-<!-- Search -->
 <input type="text" id="searchBar" placeholder="جستجوی آموزش‌ها..." />
 
-<!-- Content Display -->
 <div id="contentArea"></div>
 
 <footer>© <span id="year"></span> Aegis Lab</footer>
-</main>
 
 <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
 <script>
@@ -127,7 +132,7 @@ function loadContent(){
   const data = JSON.parse(localStorage.getItem('content')||'[]');
   contentArea.innerHTML='';
   data.forEach((item,i)=>{
-    let html=`<div class="card"><h3><i data-feather="book"></i> ${item.title}</h3>`;
+    let html=`<div class="card show"><h3><i data-feather="book"></i> ${item.title}</h3>`;
     if(item.desc) html+=`<div class='caption'>${item.desc}</div>`;
     if(item.category) html+=`<div class='caption'>دسته‌بندی: ${item.category}</div>`;
     item.files.forEach(f=>{
@@ -186,6 +191,16 @@ function showSection(section){
     loginPanel.style.display='block';
   }
 }
+
+// Toggle Sidebar
+const toggleBtn = document.getElementById('toggleBtn');
+const sidebar = document.getElementById('sidebar');
+const mainContent = document.querySelector('main');
+
+toggleBtn.addEventListener('click', ()=>{
+  sidebar.classList.toggle('collapsed');
+  mainContent.classList.toggle('collapsed');
+});
 
 loadContent();
 </script>
