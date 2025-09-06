@@ -3,62 +3,62 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Aegis Lab — آموزش‌ها</title>
-<meta name="color-scheme" content="dark">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2300ffaa' d='M8 12h48v12L32 56 8 24z'/%3E%3C/svg%3E">
+<title>RLAX Lab — آموزش‌ها</title>
+<meta name="color-scheme" content="light">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%23007BFF' d='M8 12h48v12L32 56 8 24z'/%3E%3C/svg%3E">
 <link href="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather-sprite.svg" rel="stylesheet">
 <style>
 :root{
---bg:#050607; --panel:#0c0f12; --muted:#8b949e; --text:#e6f1ef; 
---line:#1b2127; --accent:#00ffaa; --radius:16px; 
---shadow:0 10px 30px rgba(0,255,170,.08),0 0 0 1px #11261e inset;
---glow:0 0 15px rgba(0,255,170,0.8);
---hover-glow:0 0 20px rgba(0,255,170,0.5);
+--bg:#f5f7fa; --panel:#ffffff; --muted:#6c757d; --text:#212529; 
+--line:#dee2e6; --accent:#007BFF; --radius:16px; 
+--shadow:0 10px 30px rgba(0,123,255,.08),0 0 0 1px #dee2e6 inset;
+--hover-shadow:0 0 20px rgba(0,123,255,0.2);
 }
 *{box-sizing:border-box}
 html,body{height:100%; margin:0; font-family: IRANSans, Vazirmatn, system-ui; color:var(--text); background:var(--bg);}
 body{display:flex; transition: background 0.3s;}
 /* Sidebar */
 #sidebar{
-width:220px; background:var(--panel); padding:20px; border-right:1px solid var(--line); position:fixed; height:100%; overflow:auto; box-shadow: var(--glow);
+width:60px; background:var(--panel); padding:20px 8px; border-right:1px solid var(--line); position:fixed; height:100%; overflow:auto; box-shadow: var(--shadow);
 transition: 0.3s;
 }
-#sidebar.collapsed{width:60px; padding:20px 8px;}
-#sidebar h2{margin:0 0 20px; color:var(--accent); text-align:center; font-size:20px; text-shadow: 0 0 6px var(--accent); transition:0.3s;}
-#sidebar.collapsed h2{opacity:0; pointer-events:none;}
+#sidebar.expanded{width:220px; padding:20px;}
+#sidebar h2{margin:0 0 20px; color:var(--accent); text-align:center; font-size:20px; transition:0.3s; font-weight:700;}
+#sidebar.expanded h2{opacity:1;}
+#sidebar h2{opacity:0; pointer-events:none;}
 #sidebar .menu-item{display:flex; align-items:center; padding:12px; border-radius:12px; margin-bottom:10px; cursor:pointer; transition:0.3s; color:var(--text);}
-#sidebar .menu-item:hover{background:rgba(0,255,170,0.1); box-shadow: var(--hover-glow); transform:scale(1.05);}
+#sidebar .menu-item:hover{background:rgba(0,123,255,0.1); box-shadow: var(--hover-shadow); transform:scale(1.05);}
 #sidebar .menu-item i{margin-left:10px; color:var(--accent);}
-/* Toggle Button */
 #toggleBtn{cursor:pointer; color:var(--accent); margin-bottom:20px; display:flex; justify-content:center; align-items:center; font-size:20px;}
 /* Main Content */
-main{margin-right:240px; flex:1; padding:24px; transition: margin-right 0.3s;}
-main.collapsed{margin-right:60px;}
-header{position:sticky; top:0; z-index:40; backdrop-filter: blur(8px); background:rgba(5,6,7,.65); border-bottom:1px solid var(--line); padding:12px 0; margin-bottom:16px; box-shadow: var(--glow);}
+main{margin-right:60px; flex:1; padding:24px; transition: margin-right 0.3s;}
+main.expanded{margin-right:220px;}
+header{position:sticky; top:0; z-index:40; backdrop-filter: blur(8px); background:rgba(255,255,255,0.95); border-bottom:1px solid var(--line); padding:12px 0; margin-bottom:16px;}
 header .title{line-height:1.1}
-header .title b{display:block;font-weight:800; text-shadow: 0 0 6px var(--accent);}
+header .title b{display:block;font-weight:800; color:var(--accent);}
 header .subtitle{font-size:12px;color:var(--muted);}
 .card{background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); padding:16px; margin-bottom:16px; transition:0.5s; box-shadow:var(--shadow); opacity:0; transform:translateY(20px);}
 .card.show{opacity:1; transform:translateY(0);}
-.card:hover{transform:translateY(-4px) scale(1.02); box-shadow:0 15px 40px rgba(0,255,170,.3),0 0 0 1px #11261e inset;}
-.card h3{margin:0 0 8px; font-size:16px; display:flex; align-items:center; text-shadow: 0 0 4px var(--accent);}
+.card:hover{transform:translateY(-4px) scale(1.02); box-shadow:0 10px 30px rgba(0,123,255,.2),0 0 0 1px #dee2e6 inset;}
+.card h3{margin:0 0 8px; font-size:16px; display:flex; align-items:center;}
 .card h3 i{margin-left:8px; color:var(--accent);}
-input, textarea, select{width:100%; background:#0a0e11; border:1px solid #20262c; color:#dfe9e5; border-radius:12px; padding:10px 12px; outline:none; margin-bottom:8px; transition:0.2s;}
-input:focus, textarea:focus, select:focus{border-color:var(--accent); box-shadow:var(--glow);}
+input, textarea, select{width:100%; background:#f8f9fa; border:1px solid #ced4da; color:#212529; border-radius:12px; padding:10px 12px; outline:none; margin-bottom:8px; transition:0.2s;}
+input:focus, textarea:focus, select:focus{border-color:var(--accent); box-shadow:0 0 8px rgba(0,123,255,0.3);}
 input[type=file]{padding:4px}
-.btn{border:1px solid #1e252b; background:#0b0f12; color:#cfe9e1; padding:8px 12px; border-radius:12px; cursor:pointer; transition:0.3s; box-shadow: 0 0 4px rgba(0,255,170,0.4);}
-.btn:hover{background:#0f1519; transform:scale(1.05); box-shadow:0 0 10px rgba(0,255,170,0.6);}
+.btn{border:1px solid #007BFF; background:#ffffff; color:#007BFF; padding:8px 12px; border-radius:12px; cursor:pointer; transition:0.3s; box-shadow:0 0 4px rgba(0,123,255,0.2);}
+.btn:hover{background:#007BFF; color:#ffffff; transform:scale(1.05); box-shadow:0 0 10px rgba(0,123,255,0.3);}
 .caption{font-size:12px; color:var(--muted); margin-top:4px}
 footer{border-top:1px solid var(--line); color:var(--muted); font-size:12px; padding:14px 0; text-align:center;}
 #loginPanel, #adminPanel{display:none;}
 #searchBar{margin-bottom:16px; padding-left:10px;}
+img, video{border-radius:12px; margin-top:8px; max-width:100%;}
 </style>
 </head>
 <body>
 
 <div id="sidebar">
 <div id="toggleBtn"><i data-feather="menu"></i></div>
-<h2><i data-feather="shield"></i> Aegis Lab</h2>
+<h2><i data-feather="shield"></i> RLAX</h2>
 <div class="menu-item" onclick="showSection('home')"><i data-feather="home"></i> صفحه اصلی</div>
 <div class="menu-item" onclick="showSection('login')"><i data-feather="lock"></i> پنل مدیریت</div>
 <div class="menu-item"><i data-feather="search"></i> جستجو</div>
@@ -67,8 +67,8 @@ footer{border-top:1px solid var(--line); color:var(--muted); font-size:12px; pad
 <main>
 <header>
   <div class="title">
-    <b>Aegis Lab</b>
-    <div class="subtitle">پلتفرم آموزش با ویدئو، عکس و فایل</div>
+    <b>RLAX</b>
+    <div class="subtitle">پلتفرم آموزشی پیشرفته</div>
   </div>
 </header>
 
@@ -97,15 +97,13 @@ footer{border-top:1px solid var(--line); color:var(--muted); font-size:12px; pad
 
 <div id="contentArea"></div>
 
-<footer>© <span id="year"></span> Aegis Lab</footer>
+<footer>طراحی شده توسط گروه رلکس | RLAX</footer>
 
 <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
 <script>
 feather.replace();
 
 const ADMIN_PASS = "Hh2ratu/(";
-document.getElementById('year').textContent = new Date().getFullYear();
-
 const loginPanel = document.getElementById('loginPanel');
 const adminPanel = document.getElementById('adminPanel');
 const loginBtn = document.getElementById('loginBtn');
@@ -136,11 +134,11 @@ function loadContent(){
     if(item.desc) html+=`<div class='caption'>${item.desc}</div>`;
     if(item.category) html+=`<div class='caption'>دسته‌بندی: ${item.category}</div>`;
     item.files.forEach(f=>{
-      if(f.type.startsWith('image/')) html+=`<img src='${f.url}' style='max-width:100%; border-radius:12px; margin-top:8px;' />`;
-      else if(f.type.startsWith('video/')) html+=`<video src='${f.url}' controls style='max-width:100%; border-radius:12px; margin-top:8px;'></video>`;
-      else html+=`<a href='${f.url}' download='${f.name}' class='btn' style='margin-top:4px'>دانلود ${f.name}</a>`;
+      if(f.type.startsWith('image/')) html+=`<img src='${f.url}' />`;
+      else if(f.type.startsWith('video/')) html+=`<video src='${f.url}' controls></video>`;
+      else html+=`<a href='${f.url}' download='${f.name}' class='btn'>دانلود ${f.name}</a>`;
     });
-    if(adminPanel.style.display==='block') html+=`<button class='btn' onclick='deleteContent(${i})' style='margin-top:8px'><i data-feather="trash-2"></i> حذف</button>`;
+    if(adminPanel.style.display==='block') html+=`<button class='btn' onclick='deleteContent(${i})'><i data-feather="trash-2"></i> حذف</button>`;
     html+='</div>';
     contentArea.innerHTML+=html;
   });
@@ -192,17 +190,17 @@ function showSection(section){
   }
 }
 
-// Toggle Sidebar
+// Sidebar toggle
 const toggleBtn = document.getElementById('toggleBtn');
 const sidebar = document.getElementById('sidebar');
 const mainContent = document.querySelector('main');
 
 toggleBtn.addEventListener('click', ()=>{
-  sidebar.classList.toggle('collapsed');
-  mainContent.classList.toggle('collapsed');
+  sidebar.classList.toggle('expanded');
+  mainContent.classList.toggle('expanded');
 });
 
 loadContent();
 </script>
 </body>
-</html>
+  </html>
