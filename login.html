@@ -3,16 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ورود مدیر - RLAX</title>
-  <link rel="stylesheet" href="style.css">
+  <title>ورود مدیر | RLAX</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script src="assets/js/script.js" defer></script>
 </head>
-<body>
-  <div class="container center">
-    <h1>ورود به پنل مدیریت</h1>
+<body class="login-page">
+  <div class="login-box">
+    <h2>ورود مدیر</h2>
     <input type="password" id="adminPassword" placeholder="رمز عبور">
-    <button id="loginBtn">ورود</button>
-    <div id="loginMsg" class="msg"></div>
+    <button onclick="login()">ورود</button>
+    <p id="loginError" class="error"></p>
   </div>
-  <script src="script.js"></script>
 </body>
 </html>
