@@ -3,29 +3,33 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>افزودن کانفیگ - RLAX</title>
-  <link rel="stylesheet" href="style.css">
+  <title>افزودن کانفیگ | RLAX</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script src="assets/js/script.js" defer></script>
 </head>
 <body>
-  <nav class="side-menu">
-    <a href="ads.html">📺 تبلیغات</a>
-    <a href="add-config.html">⚙️ افزودن کانفیگ</a>
-    <a href="configs.html">📑 لیست کانفیگ‌ها</a>
-    <a href="index.html">🏠 صفحه اصلی</a>
-  </nav>
-  <div class="container">
+  <header class="header">
+    <div class="logo">
+      <img src="assets/images/logo.png" alt="RLAX Logo">
+      <span>RLAX</span>
+    </div>
+    <div class="menu-icon" onclick="toggleMenu()">⋮</div>
+    <nav class="menu" id="mainMenu">
+      <a href="ads.html">تبلیغات</a>
+      <a href="add-config.html">افزودن کانفیگ</a>
+      <a href="configs.html">لیست کانفیگ‌ها</a>
+      <a href="index.html">بازگشت به سایت</a>
+    </nav>
+  </header>
+
+  <main class="container">
     <h1>افزودن کانفیگ</h1>
-    <input type="text" id="cfgTitle" placeholder="عنوان">
-    <select id="cfgType">
-      <option value="v2ray">V2Ray</option>
-      <option value="vpn">VPN</option>
-      <option value="other">سایر</option>
-    </select>
-    <textarea id="cfgText" placeholder="متن کانفیگ"></textarea>
-    <input type="file" id="cfgFile" multiple>
-    <button id="addCfgBtn">ذخیره</button>
-    <button id="clearEditor">پاک کردن فرم</button>
-  </div>
-  <script src="script.js"></script>
+    <div class="form-box">
+      <input type="text" id="configTitle" placeholder="عنوان کانفیگ">
+      <textarea id="configContent" placeholder="متن کانفیگ"></textarea>
+      <input type="file" id="configFile">
+      <button onclick="addConfig()">ثبت کانفیگ</button>
+    </div>
+  </main>
 </body>
 </html>
