@@ -3,23 +3,35 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>مدیریت تبلیغات - RLAX</title>
-  <link rel="stylesheet" href="style.css">
+  <title>مدیریت تبلیغات | RLAX</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script src="assets/js/script.js" defer></script>
 </head>
 <body>
-  <nav class="side-menu">
-    <a href="ads.html">📺 تبلیغات</a>
-    <a href="add-config.html">⚙️ افزودن کانفیگ</a>
-    <a href="configs.html">📑 لیست کانفیگ‌ها</a>
-    <a href="index.html">🏠 صفحه اصلی</a>
-  </nav>
-  <div class="container">
+  <header class="header">
+    <div class="logo">
+      <img src="assets/images/logo.png" alt="RLAX Logo">
+      <span>RLAX</span>
+    </div>
+    <div class="menu-icon" onclick="toggleMenu()">⋮</div>
+    <nav class="menu" id="mainMenu">
+      <a href="ads.html">تبلیغات</a>
+      <a href="add-config.html">افزودن کانفیگ</a>
+      <a href="configs.html">لیست کانفیگ‌ها</a>
+      <a href="index.html">بازگشت به سایت</a>
+    </nav>
+  </header>
+
+  <main class="container">
     <h1>مدیریت تبلیغات</h1>
-    <input type="file" id="adFile">
-    <input type="text" id="adCaption" placeholder="کپشن تبلیغ">
-    <button id="addAdBtn">افزودن تبلیغ</button>
-    <div id="adsList"></div>
-  </div>
-  <script src="script.js"></script>
+    <div class="form-box">
+      <input type="text" id="adTitle" placeholder="عنوان تبلیغ">
+      <textarea id="adCaption" placeholder="کپشن تبلیغ"></textarea>
+      <input type="file" id="adFile">
+      <button onclick="addAd()">افزودن تبلیغ</button>
+    </div>
+    <h2>لیست تبلیغات</h2>
+    <div id="adsList" class="cards"></div>
+  </main>
 </body>
 </html>
