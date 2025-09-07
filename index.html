@@ -3,45 +3,35 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>سایت کانفیگ V2Ray</title>
+  <title>سایت V2Ray | RLAX</title>
   <link rel="stylesheet" href="assets/css/style.css">
+  <script src="assets/js/script.js" defer></script>
 </head>
 <body>
-
-  <!-- منوی سه نقطه -->
-  <div class="menu">
-    <button id="menuBtn">⋮</button>
-    <div id="menuContent" class="menu-content">
+  <header class="header">
+    <div class="logo">
+      <img src="assets/images/logo.png" alt="RLAX Logo">
+      <span>RLAX</span>
+    </div>
+    <div class="menu-icon" onclick="toggleMenu()">⋮</div>
+    <nav class="menu" id="mainMenu">
       <a href="index.html">صفحه اصلی</a>
       <a href="login.html">پنل مدیریت</a>
       <a href="about.html">درباره ما</a>
       <a href="contact.html">تماس با ما</a>
-    </div>
-  </div>
-
-  <!-- هدر -->
-  <header>
-    <img src="assets/images/logo.png" alt="لوگو" class="logo">
-    <h1>سایت V2Ray رایگان - RLAX</h1>
+    </nav>
   </header>
 
-  <!-- جستجو -->
-  <section class="search">
-    <input type="text" id="searchBox" placeholder="جستجوی کانفیگ...">
-  </section>
-
-  <!-- لیست کانفیگ‌ها -->
-  <main>
-    <div id="configList" class="config-list">
-      <!-- کانفیگ‌ها اینجا با JS لود میشن -->
+  <main class="container">
+    <h1>لیست کانفیگ‌ها</h1>
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="جستجو در کانفیگ‌ها...">
     </div>
+    <div id="configsList" class="cards"></div>
   </main>
 
-  <!-- فوتر -->
   <footer>
-    <p>طراحی شده توسط گروه رلکس | RLAX</p>
+    طراحی شده توسط گروه رلکس | RLAX
   </footer>
-
-  <script src="assets/js/script.js"></script>
 </body>
-  </html>
+</html>
