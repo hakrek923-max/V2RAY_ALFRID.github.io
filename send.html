@@ -7,18 +7,17 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div class="wrap">
-<header><h1>ارسال پیام ناشناس</h1></header>
-<div class="hero">
-<form>
-<label>نام (اختیاری)</label>
-<input type="text" name="sender_name" placeholder="مثلاً دوست قدیمی">
-<label>متن پیام</label>
-<textarea name="body" rows="6" placeholder="پیام خود را اینجا بنویسید..." required></textarea>
-<button type="submit">ارسال ناشناس</button>
-</form>
+<div class="container">
+  <h1 id="send-title">ارسال پیام ناشناس</h1>
+  <form id="send-form">
+    <label>نام فرستنده (اختیاری):</label>
+    <input type="text" name="sender" placeholder="مثلاً علی">
+    <label>متن پیام:</label>
+    <textarea name="body" placeholder="پیام خود را اینجا وارد کنید" required></textarea>
+    <button type="submit">ارسال پیام</button>
+  </form>
 </div>
-</div>
+<div id="alert-area"></div>
 <script src="app.js"></script>
 </body>
 </html>
