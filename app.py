@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, render_template, g
+from flask import Flask, request, jsonify, render_template, g, redirect, url_for
 import sqlite3, os, secrets
 from datetime import datetime
 
@@ -38,13 +38,29 @@ def close_connection(exception):
     if db:
         db.close()
 
-# --------- صفحات ---------
+# --------- صفحات HTML ---------
 @app.route('/')
 def index(): return render_template('index.html')
 @app.route('/send.html')
 def send(): return render_template('send.html')
 @app.route('/inbox.html')
 def inbox(): return render_template('inbox.html')
+
+# --------- لینک‌های استاندارد ---------
+@app.route('/u/<username>')
+def public_link(username):
+    # هدایت به send.html با query param
+    return redirect(url_for('send', **{'user': username}))
+
+@app.route('/i/<token>')
+def inbox_link(token):
+    # پیدا کردن username مربوط به token
+    db = get_db()
+    row = db.execute('SELECT username FROM users WHERE token=?',(token,)).fetchone()
+    if not row:
+        return "توکن نامعتبر", 404
+    username = row['username']
+    return redirect(url_for('inbox', **{'user': username, 'token': token}))
 
 # --------- API ---------
 @app.route('/api/create_user', methods=['POST'])
@@ -59,9 +75,21 @@ def create_user():
     db.execute('INSERT OR REPLACE INTO users(username, token, created_at) VALUES(?,?,?)',
                (username, token, now))
     db.commit()
-    public_link = f"/send.html?user={username}"
-    inbox_link = f"/inbox.html?user={username}&token={token}"
-    return jsonify({'public_link':public_link, 'inbox_link':inbox_link, 'token':token})
+
+    # لینک‌های استاندارد و fallback
+    base = request.url_root.rstrip('/')
+    public_link_pretty = f"{base}/u/{username}"
+    inbox_link_pretty = f"{base}/i/{token}"
+    public_link_fallback = f"{base}/send.html?user={username}"
+    inbox_link_fallback = f"{base}/inbox.html?user={username}&token={token}"
+
+    return jsonify({
+        'public_link_pretty': public_link_pretty,
+        'inbox_link_pretty': inbox_link_pretty,
+        'public_link_fallback': public_link_fallback,
+        'inbox_link_fallback': inbox_link_fallback,
+        'token': token
+    })
 
 @app.route('/api/send_message', methods=['POST'])
 def send_message():
