@@ -7,24 +7,18 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div class="wrap">
-<header>
-<h1>حرفِ تو – ساخت لینک اختصاصی</h1>
-</header>
-<div class="hero">
-<h2>لینک اختصاصی بساز</h2>
-<form>
-<label>نام کاربری</label>
-<input type="text" name="username" placeholder="مثلاً ali22" required>
-<label>توضیح اختیاری درباره لینک</label>
-<input type="text" name="note" placeholder="مثلاً لینک برای دوستان">
-<button type="submit">ساختن لینک</button>
-</form>
-<p style="margin-top:16px; font-size:14px; color:#666;">
-بعد از ساخت لینک، لینک عمومی برای ارسال پیام و لینک مخفی برای مشاهده پیام‌ها تولید می‌شود.
-</p>
+<div class="container">
+  <h1>حرفِ تو – ساخت لینک اختصاصی</h1>
+  <form id="create-form">
+    <label>نام کاربری:</label>
+    <input type="text" name="username" placeholder="مثلاً admin" required>
+    <label>توضیح اختیاری درباره لینک:</label>
+    <input type="text" name="note" placeholder="بجز هاوک پیام بدین">
+    <button type="submit">ساختن لینک</button>
+  </form>
+  <div id="links"></div>
 </div>
-</div>
+<div id="alert-area"></div>
 <script src="app.js"></script>
 </body>
 </html>
