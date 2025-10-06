@@ -1,0 +1,84 @@
+/* style.css */
+body {
+    font-family: Tahoma, sans-serif;
+    direction: rtl;
+    margin: 0;
+    background: linear-gradient(120deg,#fdf6ff,#f6fff9);
+    color: #222;
+}
+
+.wrap {
+    max-width: 980px;
+    margin: 24px auto;
+    padding: 18px;
+}
+
+header {
+    padding: 14px 18px;
+    background: rgba(255,255,255,0.85);
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+    text-align: center;
+}
+
+h1 {
+    margin: 0;
+    font-size: 24px;
+}
+
+.hero {
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    margin-top: 18px;
+    box-shadow: 0 8px 26px rgba(16,24,40,.06);
+}
+
+form label {
+    display: block;
+    margin-top: 12px;
+    font-weight: 600;
+}
+
+input[type=text],
+textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #e6e6e6;
+    box-sizing: border-box;
+}
+
+button {
+    margin-top: 12px;
+    padding: 10px 14px;
+    border-radius: 10px;
+    border: 0;
+    cursor: pointer;
+    background: linear-gradient(90deg,#4D96FF,#FF6B6B);
+    color: #fff;
+    font-weight: 700;
+    width: 100%;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 12px;
+}
+
+th, td {
+    padding: 8px;
+    border-bottom: 1px dashed #eee;
+    text-align: right;
+}
+
+th {
+    background: #f0f0f0;
+}
+
+@media (max-width:600px){
+    .wrap { padding: 12px; }
+    h1 { font-size: 20px; }
+    button { font-size: 16px; }
+}
